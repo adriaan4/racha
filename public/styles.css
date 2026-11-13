@@ -50,6 +50,23 @@ body {
 h1 { margin: 0; font-size: 26px; line-height: 1; font-weight: 900; letter-spacing: 0.5px; }
 h1 span { font-size: 21px; background: linear-gradient(90deg, #ffd24d, #ff6a3d); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
+.install {
+  appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 900; font-size: 17px; letter-spacing: 0.5px;
+  color: #c2185b; background: #fff; padding: 16px; border-radius: 20px; width: 100%;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25); animation: pulse 1.8s ease-in-out infinite;
+}
+.install:active { transform: scale(0.97); }
+
+.hero {
+  position: relative; border-radius: 28px; overflow: hidden; border: 1px solid var(--glass-b);
+  box-shadow: 0 14px 40px rgba(30, 0, 60, 0.4); aspect-ratio: 1 / 0.8;
+}
+.hero img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+.hero-tag {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 12px 12px; text-align: center;
+  font-weight: 900; letter-spacing: 0.5px; background: linear-gradient(180deg, transparent, rgba(58, 10, 94, 0.88));
+}
+
 .streak {
   text-align: center; padding: 18px 12px 14px;
   background: var(--glass); border: 1px solid var(--glass-b); border-radius: 28px;

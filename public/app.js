@@ -201,6 +201,43 @@
     await updateBell();
   });
 
+  // ── Instalar la app ──────────────────────────────────────────────────
+  let deferredPrompt = null;
+  const installBtn = $('#installBtn');
+  const showInstall = () => { installBtn.hidden = isStandalone; };
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstall();
+  });
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    installBtn.hidden = true;
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice.catch(() => {});
+      deferredPrompt = null;
+      installBtn.hidden = true;
+      return;
+    }
+    $('#installText').innerHTML = isIOS
+      ? 'En el iPhone se instala desde Safari:<br><br>1️⃣ Pulsa el botón <b>Compartir</b> (el cuadrado con la flecha ⬆️)<br>2️⃣ Elige <b>Añadir a pantalla de inicio</b><br>3️⃣ Abre la app desde el nuevo icono 🔥'
+      : 'Abre el menú del navegador <b>⋮</b> y pulsa <b>Instalar aplicación</b> (o <b>Añadir a pantalla de inicio</b>).';
+    $('#installSheet').hidden = false;
+  });
+  $('#installClose').addEventListener('click', () => ($('#installSheet').hidden = true));
+
+  // En iPhone no existe el aviso automático: se muestra el botón con instrucciones.
+  // En el resto aparece cuando el navegador permite instalar (o tras 2 s con instrucciones).
+  if (!isStandalone) {
+    if (isIOS) showInstall();
+    else setTimeout(() => { if (!deferredPrompt && !isStandalone) showInstall(); }, 2000);
+  }
+
   // ── Arranque ─────────────────────────────────────────────────────────
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('SW', e));
