@@ -1,5 +1,5 @@
 // Service worker: instalación offline básica + notificaciones push
-const CACHE = 'racha-v3';
+const CACHE = 'racha-v4';
 const SHELL = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.json', '/img/foto.jpg', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', (event) => {

@@ -238,15 +238,6 @@
     else setTimeout(() => { if (!deferredPrompt && !isStandalone) showInstall(); }, 2000);
   }
 
-  // ── Splash de bienvenida (una vez por apertura de la app) ────────────
-  (function splash() {
-    const el = $('#splash');
-    let seen = false;
-    try { seen = sessionStorage.getItem('racha-splash') === '1'; sessionStorage.setItem('racha-splash', '1'); } catch {}
-    if (seen) { el.remove(); return; }
-    setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 600); }, 1400);
-  })();
-
   // ── Arranque ─────────────────────────────────────────────────────────
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('SW', e));

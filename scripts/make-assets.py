@@ -1,4 +1,4 @@
-"""Genera iconos y pantallas de bienvenida (splash) a partir de public/img/foto.jpg.
+"""Genera los iconos de la app a partir de public/img/foto.jpg.
 Requiere Pillow:  pip install pillow   y luego   python3 scripts/make-assets.py
 """
 import os
@@ -7,9 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 HERE = os.path.dirname(__file__)
 PUB = os.path.join(HERE, '..', 'public')
 ICONS = os.path.join(PUB, 'icons')
-SPLASH = os.path.join(PUB, 'splash')
 os.makedirs(ICONS, exist_ok=True)
-os.makedirs(SPLASH, exist_ok=True)
 
 photo = Image.open(os.path.join(PUB, 'img', 'foto.jpg')).convert('RGB')
 
@@ -59,28 +57,3 @@ mk.paste(rounded(photo.resize((inner, inner), Image.LANCZOS), inner // 6), ((S -
          rounded(photo.resize((inner, inner), Image.LANCZOS), inner // 6))
 mk.save(os.path.join(ICONS, 'icon-maskable-512.png'))
 print('✔ iconos')
-
-# ── Splash de iOS (apple-touch-startup-image) ───────────────────────────
-# (ancho lógico, alto lógico, ratio) → se genera ancho*ratio × alto*ratio
-DEVICES = [
-    (440, 956, 3), (402, 874, 3), (430, 932, 3), (393, 852, 3), (390, 844, 3),
-    (428, 926, 3), (414, 896, 3), (375, 812, 3), (414, 896, 2), (375, 667, 2),
-]
-for lw, lh, r in DEVICES:
-    w, h = lw * r, lh * r
-    img = gradient(w, h).convert('RGBA')
-    side = int(w * 0.6)
-    logo = rounded(photo.resize((side, side), Image.LANCZOS), side // 7)
-    x, y = (w - side) // 2, int(h * 0.5 - side * 0.62)
-    # sombra suave
-    sh = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    ImageDraw.Draw(sh).rounded_rectangle((x, y + side // 25, x + side, y + side + side // 25), side // 7, fill=(30, 0, 60, 110))
-    img = Image.alpha_composite(img, sh)
-    img.alpha_composite(logo, (x, y))
-    d = ImageDraw.Draw(img)
-    for i, (txt, sz) in enumerate((('RACHA', int(w * 0.13)), ('OBLIGATORIA', int(w * 0.095)))):
-        f = font(sz)
-        tw = d.textlength(txt, font=f)
-        d.text(((w - tw) / 2, y + side + int(h * 0.035) + i * int(w * 0.14)), txt, font=f, fill=(255, 255, 255))
-    img.convert('RGB').save(os.path.join(SPLASH, f'splash-{w}x{h}.png'), optimize=True)
-print('✔ splash iOS')
