@@ -16,6 +16,21 @@ notificaciones push (aunque la app esté cerrada) hasta que marquen **SÍ**.
 - Mensajes: "🚨 CLAUDIA, ACTIVA LA RACHA YA", "🔥 CARLA, NO DEJES MORIR LA RACHA",
   "¿PERO QUÉ HACÉIS? ¡LA RACHA NO SE ACTIVA SOLA!" y "ÚLTIMO AVISO, QUE TIKTOK NO PERDONA" (el último del día).
 - Instalable en Android y iPhone (manifest + service worker).
+- Panel **/admin** para mandar avisos a mano, personalizados o programados (ver abajo).
+
+## Panel /admin 🛠️
+
+Entra en `https://TU-APP/admin` (define `ADMIN_PASSWORD` en las variables de entorno para que pida contraseña).
+
+- **Enviar ahora** un aviso a CLAUDIA, CARLA o las dos, con título y texto personalizados (o una plantilla).
+  `{nombre}` se sustituye por el nombre de quien lo recibe. Opción *Solo a quien aún no ha marcado SÍ*.
+- **📨 Probar en este móvil**: manda lo que hayas escrito solo al móvil con el que estás en el admin
+  (tiene que tener los avisos activados desde la app). Así ves cómo queda antes de enviarlo a nadie.
+- **Programar** un aviso para un día y una hora (hora de Madrid), una sola vez o todos los días. Se puede borrar desde la lista.
+- Ves cuántos móviles tiene registrados cada una y los últimos envíos.
+
+Los avisos programados los dispara el mismo planificador de cada minuto, así que con un hosting que "duerme"
+también necesitan el cron externo de `/api/tick`.
 
 ## Estructura
 
@@ -23,7 +38,7 @@ notificaciones push (aunque la app esté cerrada) hasta que marquen **SÍ**.
 server.js            API + planificador de recordatorios (corre cada minuto)
 lib/store.js         Base de datos compartida (Postgres o fichero JSON)
 lib/time.js          Fechas en hora de Madrid
-public/              La PWA (index.html, app.js, styles.css, sw.js, manifest.json, icons/)
+public/              La PWA (index.html, app.js, styles.css, sw.js, manifest.json, icons/) y el panel (admin.html, admin.js, admin.css)
 scripts/             Generador de iconos y de claves VAPID (opcionales)
 Dockerfile, Procfile Para desplegar en casi cualquier hosting
 .env.example         Variables de entorno (todas opcionales)
