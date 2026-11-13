@@ -90,7 +90,9 @@ Cada una elige su nombre en su móvil ("LAS DOS" sirve si compartís dispositivo
 - Horas de aviso: variable `REMINDER_TIMES` (ej. `09:00,14:00,20:00,23:00`). El último de la lista es siempre el "ÚLTIMO AVISO".
 - Zona horaria: `APP_TZ` (por defecto `Europe/Madrid`).
 - Textos de los mensajes: función `buildMessage` en `server.js`.
-- Regenerar iconos: `npm run icons` (necesita Python 3).
+- Logo y splash: salen de `public/img/foto.jpg`. Para cambiarlos, sustituye esa foto (cuadrada) y ejecuta
+  `npm run icons` (necesita Python 3 y `pip install pillow`); regenera los iconos y las pantallas de bienvenida de iPhone.
+- Tras cambiar el icono, desinstala y vuelve a instalar la app en el móvil para que se actualice.
 
 ## Notas
 
